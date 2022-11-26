@@ -9,7 +9,6 @@ namespace ControllTask
         public void IncrementScore()
         {
             score++;
-            Console.SetCursorPosition(50,2);
             Console.WriteLine("Ваш рахунок: " + score);
         }
     }
