@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 using ControllTask.UI;
 namespace ControllTask
 {
-    public class ConsoleInitialization : CommonUpdate
+    public class ConsoleInitialization
     {
+        static int i = 0;
         static void Main()
         {
-            Initialization();
+            while (true)
+            {
+
+            }
             Console.ReadKey();
         }
         public static void Write()
         {
             Console.WriteLine(0);
-        }
-        private static void Initialization()
-        {
-            //Update += Write();
         }
         public void SetConsoleColor(Rect rect)
         {
