@@ -39,6 +39,8 @@ namespace ControllTask
 
         public int health = 4;
         int cursorTopPosition = 0;
+        public event Action onDead;
+
         public void GetDamage(int bitePower)
         {
             
@@ -46,7 +48,7 @@ namespace ControllTask
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("Enemy Dead");
-
+                onDead?.Invoke();
             }
             else
             {

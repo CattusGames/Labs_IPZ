@@ -13,9 +13,8 @@ namespace ControllTask
         {
             while (true)
             {
-
+                Task_5.MainTask();
             }
-            Console.ReadKey();
         }
         public static void Write()
         {
