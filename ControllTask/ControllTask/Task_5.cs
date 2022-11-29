@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.Threading;
 
 namespace ControllTask
 {
@@ -9,36 +8,81 @@ namespace ControllTask
         public void IncrementScore()
         {
             score++;
-            Console.SetCursorPosition(50,2);
             Console.WriteLine("Ваш рахунок: " + score);
         }
+    }
+
+    public class Position
+    {
+        public int x;
+        public int y;
     }
     public static class Task_5
     {
         private static Enemy enemy = new Enemy();
+        private static Player player = new Player();
+        private static Bullet bullet = new Bullet();
+
+        private readonly static GameManager gameManager = new GameManager
+        {
+            playerPosition = player.position,
+            enemyPosition = enemy.position,
+            bulletPosition = bullet.position
+        };
+
+        
+
         public static void MainTask()
         {
-            Console.WriteLine("Натисніть: \n'1' Щоб вибрати ніж \n'2' щоб вибрати рушницю \n'Enter' для атаки");
-            while (true)
+            if (enemy != null)
             {
-                if (Console.ReadKey(true).Key == ConsoleKey.D1)
-                {
-
-                }
-                else if (Console.ReadKey(true).Key == ConsoleKey.D2)
-                {
-
-                }
-                else if(Console.ReadKey(true).Key == ConsoleKey.Enter)
-                {
-                    
-                }
-                else
-                {
-                    return;
-                }
+                enemy.Move();
+            }
+            else
+            {
+                return;
             }
 
+            gameManager.Start();
+
+            Input();
+
+            enemy.onDead += gameManager.scoreCounter.IncrementScore;
+            enemy.onDead += () => { enemy = null; enemy = new Enemy(); };
+            
+        }
+
+        private static void Input()
+        {
+            
+            if (Console.ReadKey(true).Key == ConsoleKey.W)
+            {
+                player.Move(-1 , 0);
+            }
+            else if (Console.ReadKey(true).Key == ConsoleKey.A)
+            {
+                player.Move(0 , -1);
+            }
+            else if (Console.ReadKey(true).Key == ConsoleKey.S)
+            {
+                player.Move(1 , 0);
+            }
+            else if (Console.ReadKey(true).Key == ConsoleKey.D)
+            {
+                player.Move(0 , 1);
+            }
+            else if (Console.ReadKey(true).Key == ConsoleKey.Enter)
+            {
+                return;
+            }
+            else if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }
