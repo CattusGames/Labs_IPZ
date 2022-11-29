@@ -8,11 +8,12 @@ namespace ControllTask
 
         private int health = 4;
         public event Action onDead;
-        
-        public Position position { get; set; } = new Position { x = 5, y = 49 };
+
+        public Position position { get; set; } = new Position { x = 8, y = 40 };
         public float speed { get; set; } = 2f;
-        Timer timer = new Timer() { Interval = 1};
-        private readonly Random random = new Random();
+        Timer timer = new Timer() { Interval = 1 };
+        private Random random = new Random();
+
         public void GetDamage(int bitePower)
         {
 
@@ -32,26 +33,30 @@ namespace ControllTask
         }
         public void Move()
         {
-            /* timer.Start();
-             timer.Interval = speed;
-             timer.Elapsed += (o, e) =>
-             {
-
-             };*/
-            if (position.x<=0||position.x>=10)
+            /*timer.Start();
+            timer.Interval = 500f;
+            timer.Elapsed += (o, e) =>
             {
 
-            }
-            else if(position.y <= 0 || position.x >= 50)
-            {
+            };*/
+            position.x = CheckPosition(position).x;
+            position.y = CheckPosition(position).y;
+        }
+        public Position CheckPosition(Position currentPosition)
+        {
+            Position pos = new Position { x = currentPosition.x, y = currentPosition.y };
+            pos.x += (random.Next(0, 2) == 1) ? 1 : -1;
+            pos.y += (random.Next(0, 2) == 1) ? 1 : -1;
+            Console.Write("\n" + pos.x + " : " + pos.y);
 
+            if ( (pos.x <= 0) || (pos.y <= 0) || (pos.x  >= 10 ) || (pos.y >= 50) )
+            {
+                return currentPosition;
             }
             else
             {
-                position.x += random.Next(-1, 1);
-                position.y += random.Next(-1, 1);
+                return pos;
             }
-
         }
         public void Move(int x, int y){}
     }

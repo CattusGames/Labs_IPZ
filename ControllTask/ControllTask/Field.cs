@@ -30,28 +30,13 @@ namespace ControllTask
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    field[i, j] = "_";
+                    field[i, j] = ".";
                 }
             }
 
-            if (bullet.x>field.GetLength(0) || bullet.y > field.GetLength(1) || bullet.x < 0 || bullet.y<0)
-            {
-                
-            }
-            else if (player.x > field.GetLength(0) || player.y > field.GetLength(1) || player.x < 0 || player.y < 0)
-            {
-                
-            }
-            else if (enemy.x > field.GetLength(0) || enemy.y > field.GetLength(1) || enemy.x < 0 || enemy.y < 0)
-            {
-                
-            }
-            else
-            {
                 field[player.x, player.y] = "O";
                 field[enemy.x, enemy.y] = "*";
                 field[bullet.x, bullet.y] = "o";
-            }
 
         }
     }

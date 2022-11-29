@@ -17,7 +17,6 @@ namespace ControllTask
                 field.SetArray(playerPosition, enemyPosition, bulletPosition);
                 Console.SetCursorPosition(0, 0);
                 field.DrawArray();
-
         }
     }
 }
