@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.Threading;
 
 namespace ControllTask
 {
@@ -12,56 +11,59 @@ namespace ControllTask
             Console.WriteLine("Ваш рахунок: " + score);
         }
     }
+
+    public class Position
+    {
+        public int x;
+        public int y;
+    }
     public static class Task_5
     {
-        
         private static Enemy enemy = new Enemy();
-        private static ScoreCounter scoreCounter = new ScoreCounter();
-        private static string[,] field = new string[100,50];
-        private static bool start = false;
+        private static Player player = new Player();
+        private static Bullet bullet = new Bullet();
+
+        private static GameManager gameManager = new GameManager
+        {
+            playerPosition = player.position,
+            enemyPosition = enemy.position,
+            bulletPosition = bullet.position
+        };
+
+        
+
         public static void MainTask()
         {
-            if (start == false)
+            while (true)
             {
-                SetArray(field);
-                start = true;
+                gameManager.Start();
+                Input();
+                enemy.onDead += gameManager.scoreCounter.IncrementScore;
+                enemy.onDead += () => { enemy = null; enemy = new Enemy(); };
+                enemy.Move();
+
             }
-            DrawArray(field);
-            Input();
-            enemy.onDead += scoreCounter.IncrementScore;
-            enemy.onDead += () => { enemy = null; enemy = new Enemy();};
 
         }
-        private static void SetArray(string[,] arr)
-        {
-            for (int i = 0; i < arr.GetLength(0); i++)
-            {
-                for (int j = 0; j < arr.GetLength(1); j++)
-                {
-                    arr[i, j] = " ";
-                }
-            }
-        }
-        private static void DrawArray(string[,] arr)
-        {
-            for (int i = 0; i < arr.GetLength(0); i++)
-            {
-                for (int j = 0; j < arr.GetLength(1); j++)
-                {
-                    Console.Write(arr[i,j]);
-                }
-            }
-        }
+
         private static void Input()
         {
-            Console.WriteLine("Натисніть: \n'1' Щоб вибрати ніж \n'2' щоб вибрати рушницю \n'Enter' для атаки \n'Escape' для виходу");
-            if (Console.ReadKey(true).Key == ConsoleKey.D1)
+            Console.WriteLine("\nНатисніть:\n'Enter' для атаки \n'Escape' для виходу");
+            if (Console.ReadKey(true).Key == ConsoleKey.W)
             {
-
+                player.Move(-1,0);
             }
-            else if (Console.ReadKey(true).Key == ConsoleKey.D2)
+            else if (Console.ReadKey(true).Key == ConsoleKey.A)
             {
-
+                player.Move(0, -1);
+            }
+            else if (Console.ReadKey(true).Key == ConsoleKey.S)
+            {
+                player.Move(1, 0);
+            }
+            else if (Console.ReadKey(true).Key == ConsoleKey.D)
+            {
+                player.Move(0, 1);
             }
             else if (Console.ReadKey(true).Key == ConsoleKey.Enter)
             {
@@ -70,10 +72,6 @@ namespace ControllTask
             else if (Console.ReadKey(true).Key == ConsoleKey.Escape)
             {
                 Environment.Exit(0);
-            }
-            else
-            {
-                return;
             }
         }
     }

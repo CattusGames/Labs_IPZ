@@ -31,37 +31,8 @@ namespace ControllTask
             return damagePower;
         }
     }
-    interface IDamagable
-    {
-        void GetDamage(int bitePower);
-    }
-    public class Enemy : IDamagable {
 
-        public int health = 4;
-        int cursorTopPosition = 0;
-        public event Action onDead;
-
-        public void GetDamage(int bitePower)
-        {
-            
-            if (health<=0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("Enemy Dead");
-                onDead?.Invoke();
-            }
-            else
-            {
-
-                Console.SetCursorPosition(100, cursorTopPosition);
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine("Ouch");
-                health -= bitePower;
-                cursorTopPosition++;
-            }
-
-        }
-    }
+    
     public static class Task_4
     {
         private static Enemy enemy = new Enemy();
