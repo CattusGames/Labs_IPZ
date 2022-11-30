@@ -10,6 +10,7 @@ namespace ControllTask
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
+
             while (true)
             {
                 Task_5.MainTask();

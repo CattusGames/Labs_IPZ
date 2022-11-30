@@ -10,8 +10,7 @@ namespace ControllTask
         public event Action onDead;
 
         public Position position { get; set; } = new Position { x = 8, y = 40 };
-        public float speed { get; set; } = 2f;
-        Timer timer = new Timer() { Interval = 1 };
+        public float speed { get; set; } = 0.8f;
         private Random random = new Random();
 
         public void GetDamage(int bitePower)
@@ -33,21 +32,14 @@ namespace ControllTask
         }
         public void Move()
         {
-            /*timer.Start();
-            timer.Interval = 500f;
-            timer.Elapsed += (o, e) =>
-            {
-
-            };*/
-            position.x = CheckPosition(position).x;
-            position.y = CheckPosition(position).y;
+                position.x = CheckPosition(position).x;
+                position.y = CheckPosition(position).y;
         }
-        public Position CheckPosition(Position currentPosition)
+        private Position CheckPosition(Position currentPosition)
         {
             Position pos = new Position { x = currentPosition.x, y = currentPosition.y };
             pos.x += (random.Next(0, 2) == 1) ? 1 : -1;
             pos.y += (random.Next(0, 2) == 1) ? 1 : -1;
-            Console.Write("\n" + pos.x + " : " + pos.y);
 
             if ( (pos.x <= 0) || (pos.y <= 0) || (pos.x  >= 10 ) || (pos.y >= 50) )
             {
