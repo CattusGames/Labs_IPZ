@@ -24,13 +24,11 @@ namespace ControllTask
     {
         private static Enemy enemy = new Enemy();
         private static Player player = new Player();
-        private static Bullet bullet = new Bullet();
 
         private readonly static GameManager gameManager = new GameManager
         {
             playerPosition = player.position,
             enemyPosition = enemy.position,
-            bulletPosition = bullet.position
         };
 
         
@@ -39,7 +37,7 @@ namespace ControllTask
         {
             if (enemy != null)
             {
-                Timer timer = new Timer((object o) => { enemy.Move(); }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0.5f));
+                //Timer timer = new Timer((object o) => { enemy.Move(); }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0.5f));
                 
             }
             gameManager.Start();
@@ -74,9 +72,9 @@ namespace ControllTask
                 player.Move(0, 1);
                 player.right = true;
             }
-            else if (Console.ReadKey(true).Key == ConsoleKey.Enter)
+            else if(Console.ReadKey(true).Key == ConsoleKey.Enter)
             {
-                bullet.Move(player.position.x, player.position.y,player.right);
+                gameManager.field.OnPosition += () => { enemy.GetDamage(1); };
             }
             else if (Console.ReadKey(true).Key == ConsoleKey.Escape)
             {

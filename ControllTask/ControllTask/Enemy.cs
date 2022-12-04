@@ -6,7 +6,7 @@ namespace ControllTask
     public class Enemy : IDamagable, IMovable
     {
 
-        private int health = 4;
+        private int health = 1;
         public event Action onDead;
 
         public Position position { get; set; } = new Position { x = 8, y = 40 };
