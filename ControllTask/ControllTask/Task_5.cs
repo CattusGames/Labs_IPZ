@@ -11,6 +11,7 @@ namespace ControllTask
         public void IncrementScore()
         {
             score++;
+            Console.SetCursorPosition(1,13);
             Console.WriteLine("Ваш рахунок: " + score);
         }
     }
@@ -25,6 +26,11 @@ namespace ControllTask
         private static Enemy enemy = new Enemy();
         private static Player player = new Player();
 
+        private static DateTime lastMeasuredTime = DateTime.Now;
+        private static double desiredFrameTime = 1000.0 / 24.0;
+        private static bool init = false;
+        private static bool start = false;
+        private static bool isCatch = false;
         private readonly static GameManager gameManager = new GameManager
         {
             playerPosition = player.position,
@@ -33,50 +39,70 @@ namespace ControllTask
 
         
 
-        public async static void MainTask()
+        public static void MainTask()
         {
-            if (enemy != null)
+            while (true)
             {
-                //Timer timer = new Timer((object o) => { enemy.Move(); }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0.5f));
-                
-            }
-            gameManager.Start();
-
-            await Task.Run(() =>
-            {
-                Input();
-            });
-            enemy.onDead += gameManager.scoreCounter.IncrementScore;
-            enemy.onDead += () => { enemy = null; enemy = new Enemy(); };
-            
+                while (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    Input(key);
+                }
+                if ((DateTime.Now - lastMeasuredTime).TotalMilliseconds >= desiredFrameTime)
+                {
+                    if (init == false)
+                    {
+                        Initialization();
+                        init = true;
+                    }
+                    if (start == true)
+                    {
+                        Timer timer1 = new Timer((object o) =>
+                        {
+                            if (!isCatch)
+                            {
+                                start = false;
+                                Console.Clear();
+                                Console.WriteLine("Гру закінчено");
+                            }
+                        }, null, TimeSpan.FromSeconds(10f), TimeSpan.FromSeconds(1f));
+                        Timer timer = new Timer((object o) => { enemy.Move(); }, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(5f));
+                        gameManager.Start();
+                        lastMeasuredTime = DateTime.Now;
+                    }
+                }
+            }  
         }
-
-        private static void Input()
+        private static void Initialization()
         {
-            Console.SetCursorPosition(1, 2);
-            if (Console.ReadKey(true).Key == ConsoleKey.W)
+            gameManager.field.OnPosition += () => { enemy.GetDamage(1); isCatch = true; };
+            enemy.onDead += () => { enemy.health = 1; gameManager.scoreCounter.IncrementScore(); isCatch = false; };
+        }
+        private static void Input(ConsoleKeyInfo consoleKey)
+        {
+            if (consoleKey.Key == ConsoleKey.W)
             {
                 player.Move(-1, 0);
             }
-            else if (Console.ReadKey(true).Key == ConsoleKey.A)
+            else if (consoleKey.Key == ConsoleKey.A)
             {
                 player.Move(0, -1);
                 player.right = false;
             }
-            else if (Console.ReadKey(true).Key == ConsoleKey.S)
+            else if (consoleKey.Key == ConsoleKey.S)
             {
                 player.Move(1, 0);
             }
-            else if (Console.ReadKey(true).Key == ConsoleKey.D)
+            else if (consoleKey.Key == ConsoleKey.D)
             {
                 player.Move(0, 1);
                 player.right = true;
             }
-            else if(Console.ReadKey(true).Key == ConsoleKey.Enter)
+            else if (consoleKey.Key == ConsoleKey.Enter)
             {
-                gameManager.field.OnPosition += () => { enemy.GetDamage(1); };
+                start = true;
             }
-            else if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+            else if (consoleKey.Key == ConsoleKey.Escape)
             {
                 Environment.Exit(0);
             }

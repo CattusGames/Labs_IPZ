@@ -10,7 +10,8 @@ namespace ControllTask
     {
         public ScoreCounter scoreCounter = new ScoreCounter();
         public Field field = new Field();
-        public Position playerPosition, enemyPosition;
+        public Position playerPosition;
+        public Position enemyPosition;
 
         public void Start()
         {

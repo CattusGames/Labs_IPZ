@@ -6,7 +6,7 @@ namespace ControllTask
     public class Enemy : IDamagable, IMovable
     {
 
-        private int health = 1;
+        public int health = 1;
         public event Action onDead;
 
         public Position position { get; set; } = new Position { x = 8, y = 40 };
@@ -19,12 +19,15 @@ namespace ControllTask
             if (health <= 0)
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.SetCursorPosition(1, 12);
                 Console.WriteLine("Enemy Dead");
+                Spawn();
                 onDead?.Invoke();
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.SetCursorPosition(1, 11);
                 Console.WriteLine("Ouch");
                 health -= bitePower;
             }
@@ -51,5 +54,10 @@ namespace ControllTask
             }
         }
         public void Move(int x, int y){}
+        private void Spawn()
+        {
+            position.x = random.Next(0, 9);
+            position.y = random.Next(0, 49);
+        }
     }
 }
