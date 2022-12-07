@@ -31,6 +31,7 @@ namespace ControllTask
         private static bool init = false;
         private static bool start = false;
         private static bool isCatch = false;
+
         private readonly static GameManager gameManager = new GameManager
         {
             playerPosition = player.position,
