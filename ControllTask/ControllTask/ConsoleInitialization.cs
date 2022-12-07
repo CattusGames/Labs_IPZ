@@ -6,14 +6,14 @@ namespace ControllTask
     {
         static void Main()
         {
-            Console.WriteLine("\nНатисніть:\n'Enter' для атаки \n'Escape' для виходу");
+
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
-            while (true)
-            {
-                Task_5.MainTask();
-            }
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("\nНатисніть:\n'Enter' для старту \n'Escape' для виходу \n'1' щоб додати нового ворога \n'2' щоб почати заново");
+
+            Task_5.MainTask();
 
         }
 

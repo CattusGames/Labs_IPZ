@@ -9,6 +9,7 @@ namespace ControllTask
     public class Player : IMovable
     {
         public Position position { get; set; } = new Position { x = 5, y = 1 };
+        public bool right = true;
         public float speed { get; set; } = 2f;
 
         public void Move(int x, int y)

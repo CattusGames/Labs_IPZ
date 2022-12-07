@@ -9,10 +9,11 @@ namespace ControllTask
     public class Field
     {
         private string[,] field = new string[10, 50];
+        public event Action OnPosition;
 
         public void DrawArray()
         {
-            
+            Console.ForegroundColor = ConsoleColor.Black;
             for (int i = 0; i < field.GetLength(0); i++)
             {
                 for (int j = 0; j < field.GetLength(1); j++)
@@ -22,9 +23,9 @@ namespace ControllTask
                 Console.WriteLine();
 
             }
-            
+
         }
-        public void SetArray(Position player, Position enemy, Position bullet)
+        public void SetArray(Position player, Position enemy)
         {
             for (int i = 0; i < field.GetLength(0); i++)
             {
@@ -33,11 +34,13 @@ namespace ControllTask
                     field[i, j] = ".";
                 }
             }
+            field[player.x, player.y] = "O";
+            field[enemy.x, enemy.y] = "*";
 
-                field[player.x, player.y] = "O";
-                field[enemy.x, enemy.y] = "*";
-                field[bullet.x, bullet.y] = "o";
-
+            if (player.x == enemy.x && player.y == enemy.y && enemy !=null)
+            {
+                OnPosition?.Invoke();
+            }
         }
     }
 }

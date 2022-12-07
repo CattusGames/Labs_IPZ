@@ -9,12 +9,13 @@ namespace ControllTask
     public class GameManager
     {
         public ScoreCounter scoreCounter = new ScoreCounter();
-        private Field field = new Field();
-        public Position playerPosition, enemyPosition, bulletPosition;
+        public Field field = new Field();
+        public Position playerPosition;
+        public Position enemyPosition;
 
         public void Start()
         {
-                field.SetArray(playerPosition, enemyPosition, bulletPosition);
+                field.SetArray(playerPosition, enemyPosition);
                 Console.SetCursorPosition(0, 0);
                 field.DrawArray();
         }
